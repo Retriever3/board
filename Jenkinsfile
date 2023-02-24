@@ -1,9 +1,9 @@
 def mainDir="."
 def ecrLoginHelper="docker-credential-ecr-login"
-def region="ap-northeast-1"
-def ecrUrl="598552988151.dkr.ecr.ap-northeast-1.amazonaws.com"
-def repository="board"
-def deployHost="54.168.148.170"
+def region="ap-northeast-2"
+def ecrUrl="511486167268.dkr.ecr.ap-northeast-2.amazonaws.com"
+def repository="board1"
+def deployHost="43.200.180.249"
 
 pipeline {
     agent any
@@ -34,7 +34,7 @@ pipeline {
                 }
                  stage('Deploy to AWS EC2 VM'){
                             steps{
-                                sshagent(credentials : ["deploy-key"]) {
+                                sshagent(credentials : ["deploy-key1"]) {
                                     sh "ssh -o StrictHostKeyChecking=no ubuntu@${deployHost} \
                                      'aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${ecrUrl}/${repository}; \
                                       docker run -d -p 80:8888 -t ${ecrUrl}/${repository}:${currentBuild.number};'"
